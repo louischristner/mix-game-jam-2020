@@ -31,12 +31,12 @@ public class ButtonController : MonoBehaviour
         */
     }
 
-    public void OnMouseDown()
+    public void SetPressable()
     {
         spriteRenderer.sprite = pressedImage;
     }
 
-    public void OnMouseUp()
+    public void SetUnpressable()
     {
         spriteRenderer.sprite = defaultImage;
     }

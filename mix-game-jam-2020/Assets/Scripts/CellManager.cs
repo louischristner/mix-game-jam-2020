@@ -101,12 +101,16 @@ public class CellManager : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         if (mouseManager.GetMouseType() == VertexType.EMPTY) {
-            mapGenerator.GetGrid()[x, y]._type = mouseManager.GetMouseType();
+            mapGenerator.GetGrid()[x, y]._type = VertexType.EMPTY;
         } else if (mapGenerator.GetGrid()[x, y]._type == VertexType.EMPTY) {
-            mapGenerator.GetGrid()[x, y]._type = mouseManager.GetMouseType();
+            if (mouseManager.GetMouseType() == VertexType.ROAD) {
+                mapGenerator.GetGrid()[x, y]._type = VertexType.ROAD;
+            } else {
+                mapGenerator.AskForBuilding(mapGenerator.GetGrid()[x, y], mouseManager.GetMouseType());
+            }
         }
     }
 }

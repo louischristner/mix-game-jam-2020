@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ArrowSpawner : MonoBehaviour
 {
-    public float rate = 2f;
     public GameObject arrow;
+    public List<float> notesInterval;
+    public MapGenerator mapGenerator;
 
-    private float elapsedTime;
+    private float speed = 200f;
+    private float elapsedTime = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        elapsedTime = rate;
+        
     }
 
     // Update is called once per frame
@@ -20,10 +22,24 @@ public class ArrowSpawner : MonoBehaviour
     {
         elapsedTime += Time.deltaTime;
 
-        if (elapsedTime >= rate) {
-            GameObject newArrow = Instantiate(arrow, GameObject.Find("Canvas").transform, false);
-            newArrow.transform.position = transform.position;
-            elapsedTime = 0f;
+        if (notesInterval.Count > 0) {
+            if (elapsedTime >= (notesInterval[0] * speed)) {
+                GameObject newArrow = Instantiate(arrow, transform.position, Quaternion.identity);
+                newArrow.GetComponent<ArrowController>().mapGenerator = mapGenerator;
+                notesInterval.RemoveAt(0);
+            }
         }
+    }
+
+    public void ResetElapsedTime()
+    {
+        elapsedTime = 0f;
+    }
+
+    public void StartMusic(float speed, List<float> notesInterval)
+    {
+        ResetElapsedTime();
+        this.speed = speed;
+        this.notesInterval = notesInterval;
     }
 }
